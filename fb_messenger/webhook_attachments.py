@@ -45,9 +45,9 @@ class Location(object):
     type = webhook_attachment_types.LOCATION
 
     def __init__(self, attachment_payload):
-        self.payload = attachment_payload
-        self.lat = attachment_payload['coordinates'].get('lat')
-        self.long = attachment_payload['coordinates'].get('long')
+        self.payload = attachment_payload.get('payload')
+        self.lat = attachment_payload['payload']['coordinates'].get('lat')
+        self.long = attachment_payload['payload']['coordinates'].get('long')
 
     def __str__(self):
         return str(self.payload)
