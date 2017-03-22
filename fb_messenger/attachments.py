@@ -139,6 +139,22 @@ class ButtonWithWebUrl(ISubElement):
             'url': self.web_url,
         }
 
+class CallButton(ISubElement):
+
+    def __init__(self, title, payload):
+        """
+        :type title: str
+        :type payload: str
+        """
+        self.title = title
+        self.payload = payload
+
+    def to_dict(self):
+        return {
+            'type': 'phone_number',
+            'title': self.title,
+            'payload': self.payload,
+        }
 
 class ButtonWithPostback(ISubElement):
     """
