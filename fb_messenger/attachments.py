@@ -6,6 +6,23 @@ from __future__ import unicode_literals
 
 from .interfaces import IAttachment, ISubElement
 
+class DefaultAction(IAttachment):
+
+    def __init__(self, url):
+        """
+        :type type: str
+        :type type: str
+        """
+        self.type = 'web_url'
+        self.url = url
+
+    def to_dict(self):
+        data = {
+            "type": self.type,
+            "url": self.url
+        }
+
+        return data
 
 class Text(IAttachment):
     """
@@ -149,19 +166,21 @@ class GenericSubElement(ISubElement):
     :see https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template
     """
 
-    def __init__(self, title, item_url=None, image_url=None, subtitle=None, buttons=None):
+    def __init__(self, title, item_url=None, image_url=None, subtitle=None, buttons=None, default_action=None):
         """
         :type title: str
         :type item_url: str
         :type image_url: str
         :type subtitle: str
         :type buttons: Iterable[ButtonWithWebUrl|ButtonWithPostback]
+        :type default_action: DefaultAction
         """
         self.title = title
         self.item_url = item_url
         self.image_url = image_url
         self.subtitle = subtitle
         self.buttons = buttons
+        self.default_action = default_action
 
     def to_dict(self):
         data = {
@@ -179,6 +198,9 @@ class GenericSubElement(ISubElement):
 
         if self.buttons:
             data['buttons'] = [button.to_dict() for button in self.buttons]
+
+        if self.default_action:
+            data['default_action'] = self.default_action.to_dict()
 
         return data
 
